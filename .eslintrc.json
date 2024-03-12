@@ -1,0 +1,69 @@
+{
+  "extends": [
+    "prettier",
+    "plugin:mdx/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "jsx-a11y",
+    "import",
+    "unused-imports",
+    "prettier"
+  ],
+  "rules": {
+    "no-console": "warn",
+    "no-alert": "error",
+    "camelcase": "off",
+    "func-names": "off",
+    "no-process-exit": "off",
+    "react/prop-types": "off",
+    "object-shorthand": "off",
+    "prettier/prettier": "warn",
+    "class-methods-use-this": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unstable-nested-components": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
+    "quotes": ["error", "double"],
+    "jsx-a11y/alt-text": "off",
+    "import/no-unresolved": "off",
+    "react/react-in-jsx-scope": "off",
+    "unused-imports/no-unused-imports": "error",
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect",
+      "mdx/code-blocks": true,
+      "mdx/language-mapper": {}
+    }
+  }
+}
