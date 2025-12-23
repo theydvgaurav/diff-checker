@@ -6,11 +6,11 @@ interface NavbarProps {
 }
 const Navbar = ({ currentTab, setCurrentTab }: NavbarProps) => {
   return (
-    <nav className="p-3  border-gray-200  bg-[#FF5B91] ">
+    <nav className="p-3 border-gray-200 bg-[#FF5B91] ">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <a className="flex items-center" href="/#">
           <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-[#FFF6F9]">
-            DiffChecker Tool
+            Diff & JSON Tools
           </span>
         </a>
         <button
@@ -39,7 +39,7 @@ const Navbar = ({ currentTab, setCurrentTab }: NavbarProps) => {
           className="hidden w-full cursor-pointer md:block md:w-auto"
           id="navbar-solid-bg"
         >
-          <ul className="flex flex-col mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+          <ul className="flex flex-col mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-4 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
             <li>
               <a
                 href="/#"
@@ -49,10 +49,10 @@ const Navbar = ({ currentTab, setCurrentTab }: NavbarProps) => {
                 className={
                   currentTab === 1
                     ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
-                    : "block py-2 rounded-full text-[white]"
+                    : "block py-2 px-4 rounded-full text-[white]"
                 }
               >
-                Text Compare
+                Text Diff
               </a>
             </li>
             <li>
@@ -63,11 +63,56 @@ const Navbar = ({ currentTab, setCurrentTab }: NavbarProps) => {
                 }}
                 className={
                   currentTab === 2
-                    ? "block py-2  px-4 text-[black] bg-[white]  rounded-full"
-                    : "block py-2 rounded-full text-[white]"
+                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
+                    : "block py-2 px-4 rounded-full text-[white]"
                 }
               >
-                Json Compare
+                JSON Diff
+              </a>
+            </li>
+            <li>
+              <a
+                href="/#"
+                onClick={() => {
+                  setCurrentTab(3);
+                }}
+                className={
+                  currentTab === 3
+                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
+                    : "block py-2 px-4 rounded-full text-[white]"
+                }
+              >
+                JSON Formatter
+              </a>
+            </li>
+            <li>
+              <a
+                href="/#"
+                onClick={() => {
+                  setCurrentTab(4);
+                }}
+                className={
+                  currentTab === 4
+                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
+                    : "block py-2 px-4 rounded-full text-[white]"
+                }
+              >
+                JSON Viewer
+              </a>
+            </li>
+            <li>
+              <a
+                href="/#"
+                onClick={() => {
+                  setCurrentTab(5);
+                }}
+                className={
+                  currentTab === 5
+                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
+                    : "block py-2 px-4 rounded-full text-[white]"
+                }
+              >
+                JSON Parser
               </a>
             </li>
           </ul>

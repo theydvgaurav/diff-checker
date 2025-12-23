@@ -3,6 +3,9 @@ import Navbar from "./components/Navbar";
 import { useState } from "react";
 import Json from "./pages/Json";
 import Text from "./pages/Text";
+import JsonFormatter from "./pages/JsonFormatter";
+import JsonViewer from "./pages/JsonViewer";
+import JsonParser from "./pages/JsonParser";
 
 function App() {
   const [currentTab, setCurrentTab] = useState(1);
@@ -39,6 +42,9 @@ function App() {
           setTextData={setTextData}
         />
       )}
+      {currentTab === 3 && <JsonFormatter />}
+      {currentTab === 4 && <JsonViewer />}
+      {currentTab === 5 && <JsonParser />}
     </div>
   );
 }
