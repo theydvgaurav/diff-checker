@@ -10,7 +10,7 @@ const Navbar = ({ currentTab, setCurrentTab }: NavbarProps) => {
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <a className="flex items-center" href="/#">
           <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-[#FFF6F9]">
-            Diff & JSON Tools
+            JSON Tools
           </span>
         </a>
         <button

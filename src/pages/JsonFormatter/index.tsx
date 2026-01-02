@@ -32,11 +32,11 @@ const JsonFormatter: React.FC = () => {
   return (
     <div className="px-4 md:px-8 mt-4">
       <h1 className="text-xl font-semibold mb-4">JSON Formatter</h1>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-row gap-4">
         <div className="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 p-4">
           <h2 className="mb-2 font-semibold text-slate-800">Input JSON</h2>
           <textarea
-            className="h-[360px] w-full border rounded-lg p-4 resize-none overflow-y-scroll bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#FF5B91]/60"
+            className="h-[calc(100vh-250px)] w-full border rounded-lg p-4 resize-none overflow-y-scroll bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#FF5B91]/60"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder='Paste JSON here, e.g. {"foo":"bar"}'
@@ -69,7 +69,7 @@ const JsonFormatter: React.FC = () => {
             </button>
           </div>
           <textarea
-            className="h-[360px] w-full border rounded-lg p-4 resize-none overflow-y-scroll bg-slate-50 text-sm focus:outline-none"
+            className="h-[calc(100vh-250px)] w-full border rounded-lg p-4 resize-none overflow-y-scroll bg-slate-50 text-sm focus:outline-none"
             value={output}
             readOnly
           />

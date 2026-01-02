@@ -153,7 +153,7 @@ const Text = ({ textData, setTextData, clearData }: TextProps) => {
               old: (e.target as HTMLInputElement).value,
             });
           }}
-          className="h-[540px] w-full border-2 rounded-lg mx-4 p-4 resize-none overflow-y-scroll  bg-slate-50"
+          className="h-[calc(100vh-200px)] w-full border-2 rounded-lg mx-4 p-4 resize-none overflow-y-scroll  bg-slate-50"
         ></textarea>
         <textarea
           value={textData.new}
@@ -163,7 +163,7 @@ const Text = ({ textData, setTextData, clearData }: TextProps) => {
               new: (e.target as HTMLInputElement).value,
             });
           }}
-          className="h-[540px] rounded-lg  p-4 w-full border-2 mx-4 resize-none overflow-y-scroll  bg-slate-50"
+          className="h-[calc(100vh-200px)] rounded-lg  p-4 w-full border-2 mx-4 resize-none overflow-y-scroll  bg-slate-50"
         ></textarea>
       </div>
     </>

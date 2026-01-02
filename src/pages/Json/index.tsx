@@ -186,7 +186,7 @@ const JsonUpload = ({
               old: (e.target as HTMLInputElement).value,
             });
           }}
-          className="h-[540px] w-full rounded-lg border-2 p-4 mx-4 resize-none overflow-y-scroll  bg-slate-50"
+          className="h-[calc(100vh-200px)] w-full rounded-lg border-2 p-4 mx-4 resize-none overflow-y-scroll  bg-slate-50"
         ></textarea>
         <textarea
           value={
@@ -203,7 +203,7 @@ const JsonUpload = ({
               new: (e.target as HTMLInputElement).value,
             });
           }}
-          className="h-[540px] w-full rounded-lg border-2 mx-4 p-4 resize-none overflow-y-scroll  bg-slate-50"
+          className="h-[calc(100vh-200px)] w-full rounded-lg border-2 mx-4 p-4 resize-none overflow-y-scroll  bg-slate-50"
         ></textarea>
       </div>
     </>
