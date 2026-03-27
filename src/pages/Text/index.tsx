@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, startTransition } from "react";
 import DifferenceViewer from "../../components/DifferenceViewer";
 // import { AiFillPlusCircle } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,6 +19,7 @@ interface TextProps {
 }
 const Text = ({ textData, setTextData, clearData }: TextProps) => {
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
+  const [splitView, setSplitView] = useState(false);
 
   useEffect(() => {
     if (textData.old.length === 0 && textData.new.length === 0) {
@@ -42,14 +43,14 @@ const Text = ({ textData, setTextData, clearData }: TextProps) => {
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function () {
-      setTextData({ ...textData, old: reader.result as string });
+      setTextData((prev) => ({ ...prev, old: reader.result as string }));
     };
   };
   const uploadNewText = (file: File) => {
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function () {
-      setTextData({ ...textData, new: reader.result as string });
+      setTextData((prev) => ({ ...prev, new: reader.result as string }));
     };
   };
 
@@ -61,6 +62,8 @@ const Text = ({ textData, setTextData, clearData }: TextProps) => {
           data={textData}
           typeOfInput={"text"}
           clearData={clearData}
+          splitView={splitView}
+          onSplitViewChange={setSplitView}
         />
       )}
 
@@ -108,7 +111,7 @@ const Text = ({ textData, setTextData, clearData }: TextProps) => {
           type="button"
           onClick={() => {
             if (textData.old.length !== 0 && textData.new.length !== 0) {
-              setIsDataSubmitted(true);
+              startTransition(() => setIsDataSubmitted(true));
             } else {
               notify();
             }

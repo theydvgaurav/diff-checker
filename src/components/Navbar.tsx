@@ -1,18 +1,20 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
-interface NavbarProps {
-  currentTab: number;
-  setCurrentTab: React.Dispatch<React.SetStateAction<number>>;
-}
-const Navbar = ({ currentTab, setCurrentTab }: NavbarProps) => {
+const linkClass = ({ isActive }: { isActive: boolean }) =>
+  isActive
+    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
+    : "block py-2 px-4 rounded-full text-[white]";
+
+const Navbar = () => {
   return (
     <nav className="p-3 border-gray-200 bg-[#FF5B91] ">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <a className="flex items-center" href="/#">
+        <NavLink className="flex items-center" to="/text" end>
           <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-[#FFF6F9]">
             JSON Tools
           </span>
-        </a>
+        </NavLink>
         <button
           data-collapse-toggle="navbar-solid-bg"
           type="button"
@@ -41,79 +43,29 @@ const Navbar = ({ currentTab, setCurrentTab }: NavbarProps) => {
         >
           <ul className="flex flex-col mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-4 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
             <li>
-              <a
-                href="/#"
-                onClick={() => {
-                  setCurrentTab(1);
-                }}
-                className={
-                  currentTab === 1
-                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
-                    : "block py-2 px-4 rounded-full text-[white]"
-                }
-              >
+              <NavLink to="/text" className={linkClass}>
                 Text Diff
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="/#"
-                onClick={() => {
-                  setCurrentTab(2);
-                }}
-                className={
-                  currentTab === 2
-                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
-                    : "block py-2 px-4 rounded-full text-[white]"
-                }
-              >
+              <NavLink to="/json" className={linkClass}>
                 JSON Diff
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="/#"
-                onClick={() => {
-                  setCurrentTab(3);
-                }}
-                className={
-                  currentTab === 3
-                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
-                    : "block py-2 px-4 rounded-full text-[white]"
-                }
-              >
+              <NavLink to="/formatter" className={linkClass}>
                 JSON Formatter
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="/#"
-                onClick={() => {
-                  setCurrentTab(4);
-                }}
-                className={
-                  currentTab === 4
-                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
-                    : "block py-2 px-4 rounded-full text-[white]"
-                }
-              >
+              <NavLink to="/viewer" className={linkClass}>
                 JSON Viewer
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="/#"
-                onClick={() => {
-                  setCurrentTab(5);
-                }}
-                className={
-                  currentTab === 5
-                    ? "block py-2 px-4 text-[black] bg-[white] rounded-full"
-                    : "block py-2 px-4 rounded-full text-[white]"
-                }
-              >
+              <NavLink to="/parser" className={linkClass}>
                 JSON Parser
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>

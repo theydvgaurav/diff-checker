@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import { useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Json from "./pages/Json";
 import Text from "./pages/Text";
 import JsonFormatter from "./pages/JsonFormatter";
@@ -8,8 +9,10 @@ import JsonViewer from "./pages/JsonViewer";
 import JsonParser from "./pages/JsonParser";
 
 function App() {
-  const [currentTab, setCurrentTab] = useState(1);
-  const [jsonData, setJsonData] = useState({ old: "", new: "" });
+  const [jsonData, setJsonData] = useState<{
+    old: string | object;
+    new: string | object;
+  }>({ old: "", new: "" });
   const [textData, setTextData] = useState({ old: "", new: "" });
   const [updateTextArea, setUpdateTextArea] = useState([0, 0]);
 
@@ -22,29 +25,41 @@ function App() {
     }
   };
   return (
-    <div className="App h-screen">
-      <div className="mb-2">
-        <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+    <div className="App h-screen flex flex-col min-h-0">
+      <div className="mb-2 shrink-0">
+        <Navbar />
       </div>
-      {currentTab === 2 && (
-        <Json
-          jsonData={jsonData}
-          setJsonData={setJsonData}
-          clearData={clearData}
-          setUpdateTextArea={setUpdateTextArea}
-          updateTextArea={updateTextArea}
-        />
-      )}
-      {currentTab === 1 && (
-        <Text
-          clearData={clearData}
-          textData={textData}
-          setTextData={setTextData}
-        />
-      )}
-      {currentTab === 3 && <JsonFormatter />}
-      {currentTab === 4 && <JsonViewer />}
-      {currentTab === 5 && <JsonParser />}
+      <div className="min-h-0 flex-1 overflow-auto">
+        <Routes>
+          <Route path="/" element={<Navigate to="/text" replace />} />
+          <Route
+            path="/text"
+            element={
+              <Text
+                clearData={clearData}
+                textData={textData}
+                setTextData={setTextData}
+              />
+            }
+          />
+          <Route
+            path="/json/*"
+            element={
+              <Json
+                jsonData={jsonData}
+                setJsonData={setJsonData}
+                clearData={clearData}
+                setUpdateTextArea={setUpdateTextArea}
+                updateTextArea={updateTextArea}
+              />
+            }
+          />
+          <Route path="/formatter" element={<JsonFormatter />} />
+          <Route path="/viewer" element={<JsonViewer />} />
+          <Route path="/parser" element={<JsonParser />} />
+          <Route path="*" element={<Navigate to="/text" replace />} />
+        </Routes>
+      </div>
     </div>
   );
 }
