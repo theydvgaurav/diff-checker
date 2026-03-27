@@ -1,18 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, startTransition } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import DifferenceViewer from "../../components/DifferenceViewer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+/** Parsed uploads are objects; typed input stays a string until Compare. */
+function jsonSideReady(value: unknown): boolean {
+  if (value === null || value === undefined) return false;
+  if (typeof value === "object") return true;
+  if (typeof value === "string") {
+    const t = value.trim();
+    if (t === "") return false;
+    try {
+      JSON.parse(t);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
 interface JsonProps {
   jsonData: {
-    old: string;
-    new: string;
+    old: string | object;
+    new: string | object;
   };
   clearData: (typeOfInput: string) => void;
   setJsonData: React.Dispatch<
     React.SetStateAction<{
-      old: string;
-      new: string;
+      old: string | object;
+      new: string | object;
     }>
   >;
   updateTextArea: number[];
@@ -26,6 +44,26 @@ const JsonUpload = ({
   setUpdateTextArea,
 }: JsonProps) => {
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const splitView = location.pathname === "/json/split";
+
+  useEffect(() => {
+    const path = location.pathname.replace(/\/$/, "") || "/json";
+    if (path.startsWith("/json/") && path !== "/json/split") {
+      navigate("/json", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
+  const handleClear = (typeOfInput: string) => {
+    clearData(typeOfInput);
+    navigate("/json", { replace: true });
+  };
+
+  const setSplitView = (next: boolean) => {
+    navigate(next ? "/json/split" : "/json", { replace: true });
+  };
 
   const notify = () =>
     toast.error(" Enter Valid Json!", {
@@ -44,10 +82,10 @@ const JsonUpload = ({
     reader.readAsText(file);
     reader.onload = function () {
       const result = JSON.parse(reader.result as string);
-      setUpdateTextArea(
-        updateTextArea?.map((a, index) => (index === 0 ? 1 : a))
+      setUpdateTextArea((prev) =>
+        prev.map((a, index) => (index === 0 ? 1 : a))
       );
-      setJsonData({ ...jsonData, old: result });
+      setJsonData((prev) => ({ ...prev, old: result }));
     };
   };
   const uploadNewJson = (file: File) => {
@@ -55,24 +93,15 @@ const JsonUpload = ({
     reader.readAsText(file);
     reader.onload = function () {
       const result = JSON.parse(reader.result as string);
-      setUpdateTextArea(
-        updateTextArea?.map((a, index) => (index === 1 ? 1 : a))
+      setUpdateTextArea((prev) =>
+        prev.map((a, index) => (index === 1 ? 1 : a))
       );
-      setJsonData({ ...jsonData, new: result });
+      setJsonData((prev) => ({ ...prev, new: result }));
     };
   };
 
-  function isValidJson(json: string) {
-    try {
-      JSON.parse(json);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   useEffect(() => {
-    if (!isValidJson(jsonData.old) && !isValidJson(jsonData.new)) {
+    if (!jsonSideReady(jsonData.old) && !jsonSideReady(jsonData.new)) {
       setIsDataSubmitted(false);
     }
   }, [jsonData.old, jsonData.new]);
@@ -83,8 +112,10 @@ const JsonUpload = ({
         <DifferenceViewer
           data={jsonData}
           typeOfInput={"json"}
-          clearData={clearData}
+          clearData={handleClear}
           updateTextArea={updateTextArea}
+          splitView={splitView}
+          onSplitViewChange={setSplitView}
         />
       )}
       <div className="flex flex-row  items-center ">
@@ -129,12 +160,8 @@ const JsonUpload = ({
         <button
           type="button"
           onClick={() => {
-            const isOldJsonValid =
-              isValidJson(jsonData.old) || typeof jsonData.old === "object";
-            const isNewJsonValid =
-              isValidJson(jsonData.new) || typeof jsonData.new === "object";
-            if (isOldJsonValid && isNewJsonValid) {
-              setIsDataSubmitted(true);
+            if (jsonSideReady(jsonData.old) && jsonSideReady(jsonData.new)) {
+              startTransition(() => setIsDataSubmitted(true));
             } else {
               notify();
             }
@@ -175,7 +202,9 @@ const JsonUpload = ({
           value={
             updateTextArea[0] === 1
               ? JSON.stringify(jsonData.old, undefined, 4)
-              : jsonData.old
+              : typeof jsonData.old === "string"
+              ? jsonData.old
+              : JSON.stringify(jsonData.old, undefined, 4)
           }
           onChange={(e: React.SyntheticEvent<EventTarget>) => {
             setUpdateTextArea(
@@ -192,7 +221,9 @@ const JsonUpload = ({
           value={
             updateTextArea[1] === 1
               ? JSON.stringify(jsonData.new, undefined, 4)
-              : jsonData.new
+              : typeof jsonData.new === "string"
+              ? jsonData.new
+              : JSON.stringify(jsonData.new, undefined, 4)
           }
           onChange={(e: React.SyntheticEvent<EventTarget>) => {
             setUpdateTextArea(
